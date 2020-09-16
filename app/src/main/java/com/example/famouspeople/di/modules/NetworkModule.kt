@@ -2,8 +2,8 @@ package com.example.famouspeople.di.modules
 
 import android.app.Application
 import com.example.famouspeople.networking.NetworkConnectionInterceptor
-import com.example.famouspeople.networking.remoteDataSource.BASE_URL
 import com.example.famouspeople.networking.remoteDataSource.WebService
+import com.example.famouspeople.util.BASE_URL
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

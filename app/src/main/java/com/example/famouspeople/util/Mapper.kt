@@ -2,7 +2,7 @@ package com.example.famouspeople.util
 
 import com.example.famouspeople.peopleList.core.domain.PeopleResult
 import com.example.famouspeople.networking.entities.NetworkPeopleResult
-import com.example.famouspeople.peopleList.ui.ModelClass.ViewPeopleResult
+import com.example.famouspeople.peopleList.ui.modelClass.ViewPeopleResult
 
 fun NetworkPeopleResult.toPeopleResult(): PeopleResult {
     return PeopleResult(

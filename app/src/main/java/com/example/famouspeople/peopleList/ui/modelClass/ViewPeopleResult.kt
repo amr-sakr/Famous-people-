@@ -1,4 +1,4 @@
-package com.example.famouspeople.peopleList.ui.ModelClass
+package com.example.famouspeople.peopleList.ui.modelClass
 
 import com.example.famouspeople.peopleList.core.domain.KnownFor
 
