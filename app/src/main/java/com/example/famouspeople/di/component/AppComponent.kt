@@ -1,7 +1,7 @@
 package com.example.famouspeople.di.component
 
 import com.example.famouspeople.MainActivity
-import com.example.famouspeople.peopleList.ui.PeopleFragment
+import com.example.famouspeople.features.peopleList.ui.PeopleFragment
 import dagger.Component
 import javax.inject.Singleton
 

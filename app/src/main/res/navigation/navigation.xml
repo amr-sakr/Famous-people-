@@ -7,7 +7,20 @@
 
     <fragment
         android:id="@+id/peopleFragment"
-        android:name="com.example.famouspeople.peopleList.ui.PeopleFragment"
-        android:label="people_fragment"
-        tools:layout="@layout/people_fragment" />
+        android:name="com.example.famouspeople.features.peopleList.ui.PeopleFragment"
+        android:label="Home"
+        tools:layout="@layout/people_fragment" >
+        <action
+            android:id="@+id/action_peopleFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personDetailsFragment"
+        android:name="com.example.famouspeople.features.personDetails.ui.PersonDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/person_details_fragment" >
+        <argument
+            android:name="viewPerson"
+            app:argType="com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson" />
+    </fragment>
 </navigation>

@@ -18,32 +18,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/grey"
-        app:strokeWidth="1dp">
+        app:strokeWidth=".5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <ImageView
                 android:id="@+id/iv_profile_photo"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_launcher_background" />
 
-
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                style="@style/people_list_item_text"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile_photo"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="name name" />
@@ -51,10 +46,8 @@
 
             <TextView
                 android:id="@+id/tv_popularity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                style="@style/people_list_item_text"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile_photo"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
                 tools:text="popularity" />
@@ -62,10 +55,10 @@
 
             <TextView
                 android:id="@+id/tv_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                style="@style/people_list_item_text"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile_photo"
                 app:layout_constraintTop_toBottomOf="@+id/tv_popularity"
                 tools:text="gender" />
