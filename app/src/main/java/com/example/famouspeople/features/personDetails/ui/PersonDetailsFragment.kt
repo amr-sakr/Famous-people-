@@ -1,5 +1,6 @@
 package com.example.famouspeople.features.personDetails.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,17 +12,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.famouspeople.PeopleApplication
 import com.example.famouspeople.R
 import com.example.famouspeople.databinding.PersonDetailsFragmentBinding
+import com.example.famouspeople.di.viewModelInjecttionUtil.ViewModelFactory
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
-import com.example.famouspeople.features.personDetails.core.data.PersonProfileRepository
 import com.example.famouspeople.features.personDetails.core.useCases.GetProfileImagesUseCase
 import com.example.famouspeople.features.personDetails.ui.modelClass.ViewProfile
-import com.example.famouspeople.networking.NetworkConnectionInterceptor
-import com.example.famouspeople.networking.remoteDataSource.WebService
-import com.example.famouspeople.util.*
-import okhttp3.logging.HttpLoggingInterceptor
+import com.example.famouspeople.util.API_KEY
+import com.example.famouspeople.util.IMAGES_URL
 import timber.log.Timber
+import javax.inject.Inject
 
 class PersonDetailsFragment : Fragment() {
 
@@ -29,6 +30,9 @@ class PersonDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: PersonDetailsViewModel
     private lateinit var profileAdapter: PersonProfilesListAdapter
+
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,13 +48,8 @@ class PersonDetailsFragment : Fragment() {
         val args = PersonDetailsFragmentArgs.fromBundle(requireArguments())
         val person = args.viewPerson
 
-        val networkInterceptor = NetworkConnectionInterceptor(requireContext())
-        val logging = HttpLoggingInterceptor()
-        val webService = WebService.invoke(networkInterceptor, logging)
-        val repo = PersonProfileRepository(webService)
-        val useCase = GetProfileImagesUseCase(repo)
-        val factory = PersonDetailsViewModelFactory(useCase)
-        viewModel = ViewModelProvider(this, factory).get(PersonDetailsViewModel::class.java)
+
+        viewModel = ViewModelProvider(this, factory)[PersonDetailsViewModel::class.java]
 
         viewModel.getProfileImages(person.id!!, API_KEY)
         bindView(person)
@@ -113,6 +112,11 @@ class PersonDetailsFragment : Fragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        (context.applicationContext as PeopleApplication)
+            .appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

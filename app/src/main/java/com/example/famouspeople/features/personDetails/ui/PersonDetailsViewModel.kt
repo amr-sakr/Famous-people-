@@ -9,8 +9,10 @@ import com.example.famouspeople.features.personDetails.ui.modelClass.ViewProfile
 import com.example.famouspeople.networking.Result
 import com.example.famouspeople.util.toViewProfile
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PersonDetailsViewModel(private val useCase: GetProfileImagesUseCase) : ViewModel() {
+class PersonDetailsViewModel @Inject constructor(private val useCase: GetProfileImagesUseCase) :
+    ViewModel() {
 
     private val _profileImagesList = MutableLiveData<List<ViewProfile>>()
     val profileImagesList: LiveData<List<ViewProfile>> get() = _profileImagesList

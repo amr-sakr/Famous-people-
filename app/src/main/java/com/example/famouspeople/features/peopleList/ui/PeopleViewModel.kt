@@ -1,16 +1,20 @@
 package com.example.famouspeople.features.peopleList.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.famouspeople.features.peopleList.core.domain.Person
 import com.example.famouspeople.features.peopleList.core.useCases.GetPeopleResultUseCase
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
 import com.example.famouspeople.features.peopleList.ui.paging.PeopleDataSourceFactory
 import com.example.famouspeople.util.NetworkState
 import timber.log.Timber
+import javax.inject.Inject
 
-class PeopleViewModel(private val useCase: GetPeopleResultUseCase) : ViewModel() {
+class PeopleViewModel @Inject constructor(private val useCase: GetPeopleResultUseCase) :
+    ViewModel() {
 
 
     private lateinit var dataSourceFactory: PeopleDataSourceFactory
@@ -42,26 +46,9 @@ class PeopleViewModel(private val useCase: GetPeopleResultUseCase) : ViewModel()
         Timber.d("initialNetworkState ${networkState.value}")
     }
 
-
     fun retry() {
         dataSourceFactory.sourceData.value?.retry()
     }
 
-    private val _peopleList1 = MutableLiveData<List<Person>>()
-    val peopleList1: LiveData<List<Person>> get() = _peopleList1
-
-    init {
-//        viewModelScope.launch {
-//            when (val result = useCase.invoke("6fe5d17e820e3f4b7d5f1b33e3e9f879", 1)) {
-//                is Result.Success -> {
-//                    Result.Success(result)
-//                    _peopleList1.postValue(result.data)
-//                }
-//                is Result.Error -> {
-//                    Result.Error(Exception())
-//                }
-//            }
-//        }
-    }
 }
 

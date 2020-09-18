@@ -1,5 +1,6 @@
 package com.example.famouspeople.features.peopleList.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,26 +9,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.famouspeople.PeopleApplication
 import com.example.famouspeople.R
 import com.example.famouspeople.databinding.PeopleFragmentBinding
-import com.example.famouspeople.features.peopleList.core.data.PeopleRepository
+import com.example.famouspeople.di.viewModelInjecttionUtil.ViewModelFactory
 import com.example.famouspeople.features.peopleList.core.useCases.GetPeopleResultUseCase
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
-import com.example.famouspeople.networking.NetworkConnectionInterceptor
-import com.example.famouspeople.networking.remoteDataSource.WebService
 import com.example.famouspeople.util.API_KEY
 import com.example.famouspeople.util.Status
 import com.example.famouspeople.util.hide
 import com.example.famouspeople.util.show
-import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Inject
 
 class PeopleFragment : Fragment() {
-
 
     private var _binding: PeopleFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PeopleViewModel
     private lateinit var peopleAdapter: PeoplePagedListAdapter
+
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,21 +39,10 @@ class PeopleFragment : Fragment() {
         return binding.root
     }
 
-
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //using manual DI for now to make sure if call API is working
-        val networkInterceptor = NetworkConnectionInterceptor(requireContext())
-        val logging = HttpLoggingInterceptor()
-        val webService = WebService.invoke(networkInterceptor, logging)
-        val repo = PeopleRepository(webService)
-        val useCase = GetPeopleResultUseCase(repo)
-        val factory = PeopleViewModelFactory(useCase)
 
-        viewModel = ViewModelProvider(this, factory).get(PeopleViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[PeopleViewModel::class.java]
         viewModel.getPeopleList(API_KEY)
         initRecyclerView()
         observeNetworkState()
@@ -115,11 +106,18 @@ class PeopleFragment : Fragment() {
                     binding.loading.hide()
                     binding.errorMessage.show()
                     networkState.errorMessageRes?.let {
-                        binding.errorMessage.text = getString(R.string.somethine_went_wrong_error_message)
+                        binding.errorMessage.text =
+                            getString(R.string.somethine_went_wrong_error_message)
                     }
                 }
             }
         })
+    }
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as PeopleApplication)
+            .appComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onDestroyView() {

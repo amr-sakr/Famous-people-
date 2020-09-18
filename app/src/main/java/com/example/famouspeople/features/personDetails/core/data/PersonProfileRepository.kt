@@ -5,8 +5,10 @@ import com.example.famouspeople.networking.Result
 import com.example.famouspeople.networking.SafeApiRequest
 import com.example.famouspeople.networking.remoteDataSource.WebService
 import com.example.famouspeople.util.toProfile
+import javax.inject.Inject
 
-class PersonProfileRepository(private val webService: WebService) : IPersonProfileImagesDataSource,
+class PersonProfileRepository @Inject constructor(private val webService: WebService) :
+    IPersonProfileImagesDataSource,
     SafeApiRequest() {
     override suspend fun getPersonProfileImages(
         personId: Int,

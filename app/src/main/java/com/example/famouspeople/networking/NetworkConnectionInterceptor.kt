@@ -11,7 +11,7 @@ import okhttp3.Response
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
-class NetworkConnectionInterceptor @Inject constructor(context: Context) : Interceptor {
+class NetworkConnectionInterceptor @Inject constructor (private val context: Context) : Interceptor {
 
     private val appContext = context.applicationContext
 
