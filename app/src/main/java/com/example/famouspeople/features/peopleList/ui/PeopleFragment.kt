@@ -9,11 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.famouspeople.PeopleApplication
+import com.example.famouspeople.application.PeopleApplication
 import com.example.famouspeople.R
 import com.example.famouspeople.databinding.PeopleFragmentBinding
 import com.example.famouspeople.di.viewModelInjecttionUtil.ViewModelFactory
-import com.example.famouspeople.features.peopleList.core.useCases.GetPeopleResultUseCase
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
 import com.example.famouspeople.util.API_KEY
 import com.example.famouspeople.util.Status

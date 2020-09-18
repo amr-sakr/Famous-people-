@@ -1,7 +1,6 @@
 package com.example.famouspeople.di.component
 
 import android.app.Application
-import android.net.ConnectivityManager
 import com.example.famouspeople.MainActivity
 import com.example.famouspeople.di.modules.AppModule
 import com.example.famouspeople.di.modules.NetworkModule

@@ -5,26 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.famouspeople.PeopleApplication
+import com.example.famouspeople.application.PeopleApplication
 import com.example.famouspeople.R
 import com.example.famouspeople.databinding.PersonDetailsFragmentBinding
 import com.example.famouspeople.di.viewModelInjecttionUtil.ViewModelFactory
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
-import com.example.famouspeople.features.personDetails.core.useCases.GetProfileImagesUseCase
 import com.example.famouspeople.features.personDetails.ui.modelClass.ViewProfile
 import com.example.famouspeople.util.API_KEY
+import com.example.famouspeople.util.EventObserver
 import com.example.famouspeople.util.IMAGES_URL
-import timber.log.Timber
 import javax.inject.Inject
 
-class PersonDetailsFragment : Fragment() {
+class PersonDetailsFragment : Fragment(), PersonProfilesListAdapter.OnProfileClickListener {
 
     private var _binding: PersonDetailsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -55,6 +54,7 @@ class PersonDetailsFragment : Fragment() {
         bindView(person)
         initRecyclerView()
         observeProfile()
+        observeNavigateToViewerEvent()
     }
 
 
@@ -74,8 +74,8 @@ class PersonDetailsFragment : Fragment() {
             profileAdapter = PersonProfilesListAdapter(object :
                 PersonProfilesListAdapter.OnProfileClickListener {
                 override fun onClick(item: ViewProfile) {
-                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
-                    Timber.d("image URL $IMAGES_URL${item.filePath} ")
+                    val fullImagePath = "$IMAGES_URL${item.filePath}"
+                    viewModel.getImagePath(fullImagePath)
                 }
 
             })
@@ -112,6 +112,18 @@ class PersonDetailsFragment : Fragment() {
         }
     }
 
+
+    private fun observeNavigateToViewerEvent() {
+        viewModel.navigateToPhotoViewerEvent.observe(viewLifecycleOwner, EventObserver {
+            val action =
+                PersonDetailsFragmentDirections.actionPersonDetailsFragmentToPhotoViewerFragment(
+                    viewModel.imagePath
+                )
+            findNavController().navigate(action)
+        })
+    }
+
+
     override fun onAttach(context: Context) {
         (context.applicationContext as PeopleApplication)
             .appComponent.inject(this)
@@ -122,4 +134,11 @@ class PersonDetailsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onClick(item: ViewProfile) {
+        val fullImagePath = "$IMAGES_URL${item.filePath}"
+        viewModel.getImagePath(fullImagePath)
+    }
+
+
 }

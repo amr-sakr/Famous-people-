@@ -1,6 +1,7 @@
-package com.example.famouspeople
+package com.example.famouspeople.application
 
 import android.app.Application
+import com.example.famouspeople.BuildConfig
 import com.example.famouspeople.di.component.AppComponent
 import com.example.famouspeople.di.component.DaggerAppComponent
 import com.example.famouspeople.di.modules.NetworkModule
