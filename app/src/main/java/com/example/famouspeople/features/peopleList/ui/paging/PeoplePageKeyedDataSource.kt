@@ -73,7 +73,7 @@ class PeoplePageKeyedDataSource(
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ViewPerson>) {
         _networkState.postValue(NetworkState.LOADING)
         coroutineScope.launch {
-            when (val result = useCase.invoke(key, 1)) {
+            when (val result = useCase.invoke(key, params.key + 1)) {
                 is Result.Success -> {
                     retry = null
                     callback.onResult(result.data?.map {

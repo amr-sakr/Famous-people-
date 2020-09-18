@@ -26,7 +26,7 @@ class PeopleViewModel @Inject constructor(private val useCase: GetPeopleResultUs
         val config = PagedList
             .Config
             .Builder()
-            .setPageSize(1)
+            .setPageSize(10)
             .setEnablePlaceholders(false)
             .build()
 
