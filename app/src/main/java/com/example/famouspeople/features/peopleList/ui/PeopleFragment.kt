@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.famouspeople.application.PeopleApplication
 import com.example.famouspeople.R
+import com.example.famouspeople.application.PeopleApplication
 import com.example.famouspeople.databinding.PeopleFragmentBinding
 import com.example.famouspeople.di.viewModelInjecttionUtil.ViewModelFactory
 import com.example.famouspeople.features.peopleList.ui.modelClass.ViewPerson
@@ -30,6 +30,11 @@ class PeopleFragment : Fragment() {
     @Inject
     lateinit var factory: ViewModelFactory
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, factory)[PeopleViewModel::class.java]
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +46,7 @@ class PeopleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, factory)[PeopleViewModel::class.java]
+
         viewModel.getPeopleList(API_KEY)
         initRecyclerView()
         observeNetworkState()
@@ -64,6 +69,7 @@ class PeopleFragment : Fragment() {
                     }
 
                 }) { viewModel.retry() }
+            peopleAdapter
             adapter = peopleAdapter
         }
     }

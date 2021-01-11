@@ -87,7 +87,7 @@ class PhotoViewerFragment : Fragment() {
                     requireContext(),
                     "Download Complete.",
                     Toast.LENGTH_SHORT
-                ).show();
+                ).show()
             }
         }
     }

@@ -23,23 +23,31 @@ class NetworkModule(private val context: Context) {
         return context
     }
 
-    companion object{
+    companion object {
 
         @Provides
         @Singleton
         @JvmStatic
-        fun provideLoggingInterceptor(): HttpLoggingInterceptor =
-            HttpLoggingInterceptor()
+        fun provideLoggingInterceptor(): HttpLoggingInterceptor{
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            return  logging
+        }
+
+
 
 
         @Provides
         @Singleton
         @JvmStatic
-        fun providesOkHttpClient(networkConnectionInterceptor: NetworkConnectionInterceptor): OkHttpClient {
+        fun providesOkHttpClient(
+            networkConnectionInterceptor: NetworkConnectionInterceptor,
+            httpLoggingInterceptor: HttpLoggingInterceptor
+        ): OkHttpClient {
             val client = OkHttpClient.Builder()
             client
                 .addInterceptor(networkConnectionInterceptor)
-                .addInterceptor(HttpLoggingInterceptor())
+                .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
             return client.build()
@@ -68,9 +76,9 @@ class NetworkModule(private val context: Context) {
         @Provides
         @Singleton
         @JvmStatic
-        fun provideWebService(retrofit: Retrofit): WebService = retrofit.create(WebService::class.java)
+        fun provideWebService(retrofit: Retrofit): WebService =
+            retrofit.create(WebService::class.java)
     }
-
 
 
 }
