@@ -30,6 +30,7 @@ class NetworkModule(private val context: Context) {
         @JvmStatic
         fun provideLoggingInterceptor(): HttpLoggingInterceptor{
             val logging = HttpLoggingInterceptor()
+
             logging.level = HttpLoggingInterceptor.Level.BODY
             return  logging
         }
